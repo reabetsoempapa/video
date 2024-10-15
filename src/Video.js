@@ -54,13 +54,13 @@ const VideoScreen = () => {
         muted
         style={{ width: "100%", maxWidth: "500px" }}
       />
-      {recordedVideo && (
+      {/* {recordedVideo && (
         <video
           src={recordedVideo}
           controls
           style={{ width: "100%", maxWidth: "500px" }}
         />
-      )}
+      )} */}
       <div>
         {!isRecording && (
           <Button onClick={startRecording}>Start Recording</Button>
