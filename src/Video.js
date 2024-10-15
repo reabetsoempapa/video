@@ -14,6 +14,7 @@ const VideoScreen = () => {
         video: true,
         audio: true,
       });
+
       videoRef.current.srcObject = stream;
 
       const mediaRecorder = new MediaRecorder(stream);
