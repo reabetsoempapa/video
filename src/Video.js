@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
+import { Button } from "reactstrap";
 
 const VideoScreen = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -13,6 +14,7 @@ const VideoScreen = () => {
         video: true,
         audio: true,
       });
+
       videoRef.current.srcObject = stream;
 
       const mediaRecorder = new MediaRecorder(stream);
@@ -52,18 +54,11 @@ const VideoScreen = () => {
         muted
         style={{ width: "100%", maxWidth: "500px" }}
       />
-      {recordedVideo && (
-        <video
-          src={recordedVideo}
-          controls
-          style={{ width: "100%", maxWidth: "500px" }}
-        />
-      )}
       <div>
         {!isRecording && (
-          <button onClick={startRecording}>Start Recording</button>
+          <Button onClick={startRecording}>Start Recording</Button>
         )}
-        {isRecording && <button onClick={stopRecording}>Stop Recording</button>}
+        {isRecording && <Button onClick={stopRecording}>Stop Recording</Button>}
       </div>
     </div>
   );
