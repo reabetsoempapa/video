@@ -60,6 +60,16 @@ const VideoScreen = () => {
         )}
         {isRecording && <Button onClick={stopRecording}>Stop Recording</Button>}
       </div>
+      {recordedVideo && (
+        <div>
+          <h3>Recorded Video:</h3>
+          <video
+            src={recordedVideo}
+            controls
+            style={{ width: "100%", maxWidth: "500px" }}
+          />
+        </div>
+      )}
     </div>
   );
 };
