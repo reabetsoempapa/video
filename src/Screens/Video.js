@@ -7,6 +7,7 @@ const VideoScreen = () => {
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
+  const [showRecordButton, setShowRecordButton] = useState(false);
 
   const startRecording = useCallback(async () => {
     try {
@@ -48,13 +49,19 @@ const VideoScreen = () => {
     startRecording();
   }, [startRecording]);
 
+  const handleQuestionEnd = () => {
+    setShowRecordButton(true);
+  };
+
   return (
     <div>
       {!recordedVideo ? (
         <>
           <div className="VideoContainer">
             <div className="VideoFrame">
-              <RandomInterviewQuestionDisplay />
+              <RandomInterviewQuestionDisplay
+                onQuestionEnd={handleQuestionEnd}
+              />
               <video ref={videoRef} autoPlay muted />
               <div>
                 {!isRecording && (

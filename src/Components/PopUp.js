@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import interviewQuestions from "../Assets/Questions.json";
 
-const RandomInterviewQuestionDisplay = () => {
+const RandomInterviewQuestionDisplay = ({ onQuestionEnd }) => {
   const [currentQuestion, setCurrentQuestion] = useState({
     category: "",
     question: "",
@@ -19,21 +19,21 @@ const RandomInterviewQuestionDisplay = () => {
   };
 
   useEffect(() => {
-    const questionTimer = setInterval(() => {
+    const showQuestionDuration = 120000; // 2 minutes
+    const questionTimer = setTimeout(() => {
       setShowQuestion(false);
-      setTimeout(() => {
-        setCurrentQuestion(getRandomQuestion());
-        setShowQuestion(true);
-      }, 1000); // 1 second delay before showing the next question
-    }, 120000); // 2 minutes (120,000 milliseconds)
+      if (onQuestionEnd) {
+        onQuestionEnd();
+      }
+    }, showQuestionDuration);
 
     // Set initial question
     setCurrentQuestion(getRandomQuestion());
 
-    return () => clearInterval(questionTimer);
-  }, []);
+    return () => clearTimeout(questionTimer);
+  }, [onQuestionEnd]);
 
-  if (!currentQuestion.question) return null;
+  if (!currentQuestion.question || !showQuestion) return null;
 
   return (
     <div
