@@ -14,24 +14,19 @@ const VideoScreen = () => {
         video: true,
         audio: true,
       });
-
       videoRef.current.srcObject = stream;
-
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
-
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
           chunksRef.current.push(event.data);
         }
       };
-
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: "video/webm" });
         setRecordedVideo(URL.createObjectURL(blob));
         chunksRef.current = [];
       };
-
       mediaRecorder.start();
       setIsRecording(true);
     } catch (error) {
@@ -43,24 +38,36 @@ const VideoScreen = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
+      const tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach((track) => track.stop());
     }
   }, []);
 
+  const handleRetry = useCallback(() => {
+    setRecordedVideo(null);
+    startRecording();
+  }, [startRecording]);
+
   return (
     <div>
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        style={{ width: "100%", maxWidth: "500px" }}
-      />
-      <div>
-        {!isRecording && (
-          <Button onClick={startRecording}>Start Recording</Button>
-        )}
-        {isRecording && <Button onClick={stopRecording}>Stop Recording</Button>}
-      </div>
-      {recordedVideo && (
+      {!recordedVideo ? (
+        <>
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            style={{ width: "100%", maxWidth: "500px" }}
+          />
+          <div>
+            {!isRecording && (
+              <Button onClick={startRecording}>Start Recording</Button>
+            )}
+            {isRecording && (
+              <Button onClick={stopRecording}>Stop Recording</Button>
+            )}
+          </div>
+        </>
+      ) : (
         <div>
           <h3>Recorded Video:</h3>
           <video
@@ -68,6 +75,9 @@ const VideoScreen = () => {
             controls
             style={{ width: "100%", maxWidth: "500px" }}
           />
+          <div>
+            <Button onClick={handleRetry}>Retry</Button>
+          </div>
         </div>
       )}
     </div>
