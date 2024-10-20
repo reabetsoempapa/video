@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from "react";
 import { Button } from "reactstrap";
-
+import RandomInterviewQuestionDisplay from "../Components/PopUp";
 const VideoScreen = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordedVideo, setRecordedVideo] = useState(null);
@@ -54,6 +54,7 @@ const VideoScreen = () => {
         <>
           <div className="VideoContainer">
             <div className="VideoFrame">
+              <RandomInterviewQuestionDisplay />
               <video ref={videoRef} autoPlay muted />
               <div>
                 {!isRecording && (
@@ -77,15 +78,6 @@ const VideoScreen = () => {
       )}
     </div>
   );
-
-  const styles = {
-    VideoFrame: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",
-    },
-  };
 };
 
 export default VideoScreen;
