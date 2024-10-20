@@ -52,36 +52,40 @@ const VideoScreen = () => {
     <div>
       {!recordedVideo ? (
         <>
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            style={{ width: "100%", maxWidth: "500px" }}
-          />
-          <div>
-            {!isRecording && (
-              <Button onClick={startRecording}>Start Recording</Button>
-            )}
-            {isRecording && (
-              <Button onClick={stopRecording}>Stop Recording</Button>
-            )}
+          <div className="VideoContainer">
+            <div className="VideoFrame">
+              <video ref={videoRef} autoPlay muted />
+              <div>
+                {!isRecording && (
+                  <Button onClick={startRecording}>Start Recording</Button>
+                )}
+                {isRecording && (
+                  <Button onClick={stopRecording}>Stop Recording</Button>
+                )}
+              </div>
+            </div>
           </div>
         </>
       ) : (
         <div>
           <h3>Recorded Video:</h3>
-          <video
-            src={recordedVideo}
-            controls
-            style={{ width: "100%", maxWidth: "500px" }}
-          />
+          <video src={recordedVideo} controls />
           <div>
-            <Button onClick={handleRetry}>Retry</Button>
+            <Button onClick={handleRetry}>Restart</Button>
           </div>
         </div>
       )}
     </div>
   );
+
+  const styles = {
+    VideoFrame: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+    },
+  };
 };
 
 export default VideoScreen;
